@@ -1,0 +1,67 @@
+cd / (some local location)
+
+git clone (copy url) (only needs to be done once... to bring down repo to local)
+
+cd into the folder that the repo is cloned to you'll see the branch
+"git checkout" to switch branches
+git 
+do not change branches without committing
+
+git checkout -b <branchname>
+
+
+
+git push --set-upstream origin <xxxxxx>
+	creates cloud repo (will have to do the first time)
+
+within the GUI "create a pull request" to push from my branch into other branches like "dev"
+clone the https
+to location on our local 
+
+
+git merge <branchname> (move changes from one branch to another.)
+
+#Here are the steps that are typically needed to commit the changes to local and push to cloud repo.
+cd / (some local location)
+git add . 
+	will add files from local folder to the local branch.  does not recognize changes
+git commit -m "....."
+	is a message that says what was done
+	this will commit to the local branch we've created
+git push
+	pushes to the cloud repo
+
+
+#If there are changes in master to pull into local:
+1. git checkout master
+2. git fetch --all
+3. git checkout pgk0233
+4. git pull . master
+4. git add .
+5. git commit -m ....
+6. git push
+
+
+
+
+
+
+Hi Zach,
+I want to fix what I’ve done by:
+1.	Moving the changes from the master branch to pgk0233
+2.	Ensuring future changes are made to pgk0233.  
+
+Can you let me a hand when you get a chance?
+Thanks,
+
+Hey Patrick,
+Please preform the following steps to do what you have asked:
+
+1.	cd into the directory which the repo is cloned using Git Bash
+2.	run git fetch --all
+3.	run git checkout pgk0233
+4.	run git pull . master
+5.	A prompt will appear asking for you to insert a commit message. Just type :wq and hit enter
+6.	Run git push git 
+
+After you have run this, then you will be in your ‘pgk0223’ branch unless you switch back out for some reason. Please let me know if you have any issues with this. I ran it on my own branch so it should be good to do.

@@ -1,0 +1,148 @@
+
+lso, this is likely to come close to 8TB of shuffle reads when it finishes (8,000,000 / 25,000 ~ 320MB/task
+
+so maybe you want 75k shuffle partitions
+
+
+the way to think about it is that each executor has maybe like 4GB of ram
+2:27
+so if you do a groupby and one of your "groups" has a ton of rows, it won't fit into the memory for one executor
+2:27
+but that shouldn't be the case here when you are grouping by claimuid (unless one of them is null with a ton of rows)
+2:27
+that's why that metrics screen is useful
+
+you can see the distribution of sizes in the tasks, so if the 75th percentile task takes 10 minutes and 1 GB and the 25th percentile takes 3 seconds and 20MB, you know you have a skew problem
+
+Loading data from "s3a" path much faster than "s3"
+
+.agg(
+    countDistinct('coverage_year, 'coverage_month).as("months_enrolled"),
+    sum('pro_cnt).as("pro_claim_cnt"),
+    sum('fac_cnt).as("fac_claim_cnt"),
+    array_sort(array_distinct(flatten(collect_list('pro_icd10_codes)))).as("pro_icd10_codes"),
+    array_sort(array_distinct(flatten(collect_list('fac_icd10_codes)))).as("fac_icd10_codes"),
+    array_sort(array_distinct(flatten(collect_list('pro_hcpcs_codes)))).as("pro_hcpcs_codes"),
+
+
+val partners = Map(
+  "Change Healthcare" -> "CHC",
+  "ESI" -> "ESI",
+  "Ability" -> "Ability",
+  "Senderra" -> "Senderra",
+)
+
+val partnerAsOneCols = partners.map {
+  x: Tuple2[String,String] => 
+    when('meta_partner === lit(x._1), lit(1)).otherwise(lit(0)).as(x._2) 
+}
+
+val partnerAggCols = partners.map {
+  x: Tuple2[String,String] => max(col(x._2)).as(x._2)
+} toSeq
+
+
+val matchDataDF = submissionsDF
+  .join(triangDF,
+    triangDF("raw_dv_token2") === submissionsDF("raw_dv_token2") &&
+      triangDF("raw_date_of_service").between(date_sub(submissionsDF("submission_date"), 365 * 2 + 90),
+                                              date_sub(submissionsDF("submission_date"), 90)),
+    "left"
+  )
+  .drop(triangDF("raw_dv_token2"))
+  .select(submissionsDF.columns.map(col(_)) ++ partnerAsOneCols: _*)
+  .groupBy(submissionsDF.columns.head, submissionsDF.columns.tail: _*)
+  .agg(partnerAggCols.head, partnerAggCols.tail: _*)
+  .cache()
+
+
+
+val cvm = new CountVectorizerModel(Array("Ability", "Change Healthcare", "ESI", "Senderra"))
+.setInputCol("partner")
+.setOutputCol("onehot")
+
+val vectorizedmatch = cvm.transform(matchDataDF)
+.withColumn("dense", toDense($"onehot").apply(toDense()))
+
+val col=labDataRawDF.columns
+val n=labDataRawDF.columns.length 
+val labDataRawDF1 = labDataRawDF.drop(col(n-1))  
+
+
+val newArrayCol = array((1..N).map(col("col" + _)) : _*)
+
+df
+  .withColumn("array_of_icds", newArrayCol)
+  .withColumn("icd", explode('array_of_icds))
+
+matchDataDF.groupBy().sum().show()
+
+scalaDF.registerTempTable("some_table")
+In Python:
+
+spark.table("some_table")
+If you use recent Spark version you should use createOrReplaceTempView in place of registerTempTable.
+
+
+
+%python
+pythonDF.registerTempTable("temp_table")
+---in a subsequent cell---
+
+%scala
+val scalaDF = table("temp_table")
+
+
+%r
+
+packages <- c("dplyr", "ggplot2", "usmap", "grid", "gridExtra", 
+              "lattice")
+
+install.packages(packages, repos="https://cran.rstudio.com")
+library(dplyr)
+library(ggplot2)
+library(usmap)
+library(grid)
+library(gridExtra)
+
+library(lattice)
+sc = sparklyr::spark_connect(method="databricks")
+result_df <- sparklyr::spark_read_table(sc=sc, name="result_df") %>% collect
+
+
+
+Loops: 
+for( var x <- Range ){
+   statement(s);
+}
+Make and Remove Directory
+
+%sh 
+rm -r /dbfs/mnt/mdv-data-science/nathan/underwriting/monthly_report_ngic/$(date +"%Y-%m-%d")/; 
+mkdir /dbfs/mnt/mdv-data-science/nathan/underwriting/monthly_report_ngic/$(date +"%Y-%m-%d")/
+
+Read from S3
+apiOutputPath = "/mnt/mdv-sandbox/nathan/" + report_end_date + "/riskscore_output_ngic/"
+riskscore_output_df = spark.read.parquet(apiOutputPath)\
+
+Date Conversion:
+  .withColumn("batchdate", to_date(concat(lit("01/"),$"batch".substr(5,2),lit("/"),$"batch".substr(1,4)),"dd/MM/yyyy"))
+Note: Must capitalize "MM"
+
+%r
+packages <- c("dplyr", "ggplot2", "usmap", "grid", "gridExtra", 
+              "lattice")
+
+install.packages(packages, repos="https://cran.rstudio.com")
+sc = sparklyr::spark_connect(method="databricks")
+
+%r
+First do .createOrReplaceTempView("member_level_prediction_outlier")
+Then
+member_level_prediction_outlier <- sparklyr::spark_read_table(sc=sc, name="member_level_prediction_outlier") %>% collect
+
+collect() executes the Spark query and returns the results to a single node in R for further analysis and visualization.
+
+
+
+

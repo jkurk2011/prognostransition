@@ -1,0 +1,26 @@
+File transfer
+from command prompt:
+pscp C:\Users\PGK0233\Desktop\uploadtoazure\* learninguser@10.210.255.149:/data/home/learninguser/HRAE_deep_Learning/Data
+pscp C:\Users\PGK0233\Desktop\uploadtoazure\* pgk0233@lousanldv00:/home/pgk0233/Data
+pscp C:\Users\PGK0233\Desktop\uploadtoazure\* pgk0233@lousanldv00:/advanalytics/pgk0233/data
+pscp C:\Users\PGK0233\Desktop\newupload\* pgk0233@lousanldv00:/home/yxy3512
+
+Azure Jupyter notebook
+from putty:
+jupyter notebook --ip 0.0.0.0 port 8003
+may need to try to "quit" to see token
+then in browser type vm ip address and input token.
+
+Python Server Jupyter Notebook
+
+from Putty:
+jupyter notebook --no-browser
+
+Clear the "recycle bin"  note- this clears everyone's recycle bin.
+ rm -rf ~/.local/share/Trash/*
+df :view disk space
+
+Unix General Commands
+ps -ef :View all running processes
+kill -9 PID: Kill a process
+chmod -R <###> <directory name> Grant access rights to user, group, others.

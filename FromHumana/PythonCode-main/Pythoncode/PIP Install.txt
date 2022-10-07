@@ -1,0 +1,6 @@
+python -m pip install --upgrade --user pip
+
+#code like this should works on python server
+python36 -m pip install pandasql  --user
+
+#to update existing: pip install sklearn --upgrade

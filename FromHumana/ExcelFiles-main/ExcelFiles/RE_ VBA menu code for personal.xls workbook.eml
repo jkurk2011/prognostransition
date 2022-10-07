@@ -1,0 +1,918 @@
+Received: from SIMMBXWPG02S02.rsc.humad.com ([169.254.10.221]) by
+ LOUMHTWPS04.rsc.humad.com ([193.41.152.33]) with mapi id 14.03.0181.006; Wed,
+ 27 May 2015 13:02:18 -0400
+From: Justin Newton <jnewton@humana.com>
+To: Ashley Veiga <AVeiga@humana.com>, Patrick Kurkiewicz
+	<pkurkiewicz@humana.com>
+Subject: RE: VBA menu code for personal.xls workbook
+Thread-Topic: VBA menu code for personal.xls workbook
+Thread-Index: AdCOUDml/azbczIYSPeQhvfQ7oSpXQJgK3wwADDarRAAALv+oAAApgQwAAD++HA=
+Date: Wed, 27 May 2015 17:02:17 +0000
+Message-ID: 
+ <9FD5BA81AFB1104B844B430BEF021C502CF4A8CC@SIMMBXWPG02S02.rsc.humad.com>
+References: 
+ <9FD5BA81AFB1104B844B430BEF021C502CF45DD9@SIMMBXWPG02S02.rsc.humad.com>
+ <E32AC5574AF89C47A75BA0150A7A633B19187225@SIMMBXWPG15S02.rsc.humad.com>
+ <F4B4FD2714D8614F8C1021C8860BF6684EC3483A@SIMMBXWPG13S02.rsc.humad.com>
+ <E32AC5574AF89C47A75BA0150A7A633B191875E0@SIMMBXWPG15S02.rsc.humad.com>
+ <F4B4FD2714D8614F8C1021C8860BF6684EC348BF@SIMMBXWPG13S02.rsc.humad.com>
+In-Reply-To: 
+ <F4B4FD2714D8614F8C1021C8860BF6684EC348BF@SIMMBXWPG13S02.rsc.humad.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-MS-Exchange-Organization-AuthSource: LOUMHTWPS04.rsc.humad.com
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+x-dg-ref: 
+ PG1ldGE+PGF0IG5tPSJwZXJzb25hbCB2YmEgY29kZS50eHQiIHA9ImM6XHVzZXJzXGpwbjAyMTdcZGVza3RvcFxwZXJzb25hbCB2YmEgY29kZS50eHQiIHN6PSI4NjE1IiB0PSIxMzA3NzIxOTcyMTU1MjUxNzYiIGg9IldDYkdnRDExNEs3eERpSDhOYkI0cytPcFgvUT0iIGlkPSIiIGJsPSIwIi8+PC9tZXRhPg==
+Content-Type: multipart/mixed;
+	boundary="_004_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_"
+MIME-Version: 1.0
+
+--_004_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_
+Content-Type: multipart/alternative;
+	boundary="_000_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_"
+
+--_000_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+I think it's just that I didn't send you all of my code.  Here it is:
+
+
+
+_____________________________________________
+From: Ashley Gregory
+Sent: Wednesday, May 27, 2015 11:26 AM
+To: Patrick Kurkiewicz; Justin Newton
+Subject: RE: VBA menu code for personal.xls workbook
+
+
+Yep, that's the same message I get too.
+
+_____________________________________________
+From: Patrick Kurkiewicz
+Sent: Wednesday, May 27, 2015 11:25 AM
+To: Justin Newton
+Cc: Ashley Gregory
+Subject: RE: VBA menu code for personal.xls workbook
+
+
+Hi Justin,
+Ashley and I weren't able to get the personal macros to work.  Is there ano=
+ther step we're missing?
+
+I was able to successfully create a personal workbook and inserted your mac=
+ros, which appear in the "add-ins" tab.  But when I click to "format table"=
+ for example I get this message:
+ << OLE Object: Picture (Device Independent Bitmap) >>
+(Ashley, is this what happens to you?)
+I looked at my security settings and macros and add-ins are not disabled.
+
+I saved my personal workbook to
+C:\Users\pgk0233\AppData\Roaming\Microsoft\Excel\XLSTART\Personal.xlsm
+And it opens every time I open Excel (which I assume is supposed to happen.=
+)
+
+If it's not a simple fix, don't worry about it.
+
+_____________________________________________
+From: Ashley Gregory
+Sent: Wednesday, May 27, 2015 10:48 AM
+To: Patrick Kurkiewicz
+Subject: RE: VBA menu code for personal.xls workbook
+
+
+I got it added so that a new tab is available in my Excel workbooks with a =
+list of available personal macros, but when I actually tried to use one, it=
+ didn't work.
+
+_____________________________________________
+From: Patrick Kurkiewicz
+Sent: Tuesday, May 26, 2015 11:28 AM
+To: Ashley Gregory
+Subject: FW: VBA menu code for personal.xls workbook
+
+
+Were you able to get this to work?
+
+_____________________________________________
+From: Justin Newton
+Sent: Thursday, May 14, 2015 9:14 AM
+To: Ashley Gregory; Bereket Kindo; Patrick Kurkiewicz
+Subject: VBA menu code for personal.xls workbook
+
+
+C:\Users\jpn0217\AppData\Roaming\Microsoft\Excel\XLSTART\PERSONAL.XLS
+
+Sub addMenu()
+'addMyMenu Macro
+'This macro will insert a menubar into the current workbook to allow easy a=
+ccess to the
+'necessary macros
+
+    Dim myMenuBar As CommandBar
+    Dim newMenu As CommandBarPopup, subMenu As CommandBarPopup
+    Dim menuButton As CommandBarButton
+    Dim menus As Integer
+    Dim calcSetting As Integer
+
+    Call delMenu
+
+    Application.StatusBar =3D False
+
+    Set myMenuBar =3D CommandBars("Worksheet Menu Bar")
+    menus =3D CommandBars("Worksheet Menu Bar").Controls.Count
+
+    Set newMenu =3D myMenuBar.Controls.Add(Type:=3DmsoControlPopup) ', befo=
+re:=3Dmenus)
+    newMenu.Caption =3D "&Personal Macros"
+    newMenu.TooltipText =3D "Personal Macros"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Format &Percentage"
+    menuButton.OnAction =3D "Percentage"
+
+    Application.StatusBar =3D True
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Switch Reference Style"
+    menuButton.OnAction =3D "SwitchRefStyle"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Calculate Range"
+    menuButton.OnAction =3D "CalculateRange"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Rebuild Calculation Chain"
+    menuButton.OnAction =3D "RebuildCalculationSequence"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Unhide All Sheets"
+    menuButton.OnAction =3D "UnhideAllSheets"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "&No Auto Format Pivots"
+    menuButton.OnAction =3D "NoAutoFormatPivots"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Format &Table"
+    menuButton.OnAction =3D "FormatTable"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Format Table No Total Row"
+    menuButton.OnAction =3D "FormatTableNoTotal"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Format MultiColumn &Heading"
+    menuButton.OnAction =3D "Format_MultiColumn_Heading"
+
+    Set menuButton =3D newMenu.Controls.Add(Type:=3DmsoControlButton, ID:=
+=3D1)
+    menuButton.Caption =3D "Pull &Color Theme"
+    menuButton.OnAction =3D "PullColorTheme"
+
+    Application.StatusBar =3D True
+
+End Sub
+
+Sub delMenu()
+'delMyMenu Macro
+    On Error Resume Next
+    CommandBars("Worksheet Menu Bar").Controls("Personal Macros").Delete
+End Sub
+
+
+
+Sub BaseFormatCode(IncludeTotal As Boolean)
+
+Dim rngSelection As Range
+
+Set rngSelection =3D Selection
+
+Dim IsLeftAlign As VbMsgBoxResult
+
+IsLeftAlign =3D MsgBox("Left Align Cells?", vbYesNo, "Alignment")
+
+    rngSelection.Borders(xlDiagonalDown).LineStyle =3D xlNone
+    rngSelection.Borders(xlDiagonalUp).LineStyle =3D xlNone
+    With rngSelection.Borders(xlEdgeLeft)
+        .LineStyle =3D xlContinuous
+        .ColorIndex =3D xlAutomatic
+        .TintAndShade =3D 0
+        .Weight =3D xlMedium
+    End With
+    With rngSelection.Borders(xlEdgeTop)
+        .LineStyle =3D xlContinuous
+        .ColorIndex =3D xlAutomatic
+        .TintAndShade =3D 0
+        .Weight =3D xlMedium
+    End With
+    With rngSelection.Borders(xlEdgeBottom)
+        .LineStyle =3D xlContinuous
+        .ColorIndex =3D xlAutomatic
+        .TintAndShade =3D 0
+        .Weight =3D xlMedium
+    End With
+    With rngSelection.Borders(xlEdgeRight)
+        .LineStyle =3D xlContinuous
+        .ColorIndex =3D xlAutomatic
+        .TintAndShade =3D 0
+        .Weight =3D xlMedium
+    End With
+    With rngSelection.Borders(xlInsideVertical)
+        .LineStyle =3D xlContinuous
+        .ColorIndex =3D xlAutomatic
+        .TintAndShade =3D 0
+        .Weight =3D xlThin
+    End With
+    With rngSelection.Borders(xlInsideHorizontal)
+        .LineStyle =3D xlDashDotDot
+        .ColorIndex =3D xlAutomatic
+        .TintAndShade =3D 0
+        .Weight =3D xlThin
+    End With
+
+    With Range(rngSelection(1, 1), rngSelection(1, rngSelection.Columns.Cou=
+nt))
+        With .Borders(xlEdgeBottom)
+            .LineStyle =3D xlDouble
+            .ColorIndex =3D xlAutomatic
+            .TintAndShade =3D 0
+            .Weight =3D xlThick
+        End With
+
+        With rngSelection
+            .HorizontalAlignment =3D xlCenter
+            .VerticalAlignment =3D xlCenter
+            .WrapText =3D True
+            .Orientation =3D 0
+            .AddIndent =3D False
+            .IndentLevel =3D 0
+            .ShrinkToFit =3D False
+            .ReadingOrder =3D xlContext
+            .MergeCells =3D False
+        End With
+        .Borders(xlInsideHorizontal).LineStyle =3D xlNone
+
+
+        If IsLeftAlign =3D vbYes Then
+            With Range(rngSelection(2, 1), rngSelection(rngSelection.Rows.C=
+ount, rngSelection.Columns.Count))
+                .HorizontalAlignment =3D xlLeft
+            End With
+        End If
+
+
+    End With
+
+    If IncludeTotal Then
+
+        With Range(rngSelection(rngSelection.Rows.Count, 1), rngSelection(r=
+ngSelection.Rows.Count, rngSelection.Columns.Count))
+            With .Borders(xlEdgeTop)
+                .LineStyle =3D xlContinuous
+                .ColorIndex =3D xlAutomatic
+                .TintAndShade =3D 0
+                .Weight =3D xlThin
+            End With
+        End With
+
+    End If
+
+    'With Range(rngSelection(1, 1), rngSelection(rngSelection.Rows.Count, 1=
+))
+    '    .HorizontalAlignment =3D xlCenter
+    '    .VerticalAlignment =3D xlCenter
+    '    .Orientation =3D 0
+    '    .AddIndent =3D False
+    '    .IndentLevel =3D 0
+    '    .ShrinkToFit =3D False
+    '    .ReadingOrder =3D xlContext
+    '    .MergeCells =3D False
+    'End With
+
+
+End Sub
+
+
+
+--_000_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from rtf -->
+<style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left:=
+ #800000 2px solid; } --></style>
+</head>
+<body>
+<font face=3D"Calibri" size=3D"2"><span style=3D"font-size:11pt;">
+<div><font color=3D"#1F497D">I think it&#8217;s just that I didn&#8217;t se=
+nd you <i>all</i> of my code.&nbsp; Here it is:</font></div>
+<div><font color=3D"#1F497D">&nbsp;</font></div>
+<div><font color=3D"#1F497D">  </font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">&nbsp;</font></div>
+<div><font face=3D"Tahoma" size=3D"2"><span style=3D"font-size:10pt;">_____=
+________________________________________<br>
+
+<b>From:</b> Ashley Gregory <br>
+
+<b>Sent:</b> Wednesday, May 27, 2015 11:26 AM<br>
+
+<b>To:</b> Patrick Kurkiewicz; Justin Newton<br>
+
+<b>Subject:</b> RE: VBA menu code for personal.xls workbook</span></font></=
+div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri" size=3D"2"><span style=3D"font-size:10.5pt;">Ye=
+p, that&#8217;s the same message I get too.</span></font></div>
+<div><font face=3D"Calibri" size=3D"2"><span style=3D"font-size:10.5pt;">&n=
+bsp;</span></font></div>
+<div><font face=3D"Tahoma" size=3D"2"><span style=3D"font-size:10pt;">_____=
+________________________________________<br>
+
+<b>From:</b> Patrick Kurkiewicz <br>
+
+<b>Sent:</b> Wednesday, May 27, 2015 11:25 AM<br>
+
+<b>To:</b> Justin Newton<br>
+
+<b>Cc:</b> Ashley Gregory<br>
+
+<b>Subject:</b> RE: VBA menu code for personal.xls workbook</span></font></=
+div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">Hi Justin,</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">Ashley and I weren&#8217;t ab=
+le to get the personal macros to work.&nbsp; Is there another step we&#8217=
+;re missing?</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">&nbsp;</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">I was able to successfully cr=
+eate a personal workbook and inserted your macros, which appear in the &#82=
+20;add-ins&#8221; tab.&nbsp; But when I click to &#8220;format table&#8221;=
+ for example I get this message:</font></div>
+<div><font face=3D"Calibri"> &lt;&lt; OLE Object: Picture (Device Independe=
+nt Bitmap) &gt;&gt; </font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">(Ashley, is this what happens=
+ to you?)</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">I looked at my security setti=
+ngs and macros and add-ins are not disabled.&nbsp; </font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">&nbsp;</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">I saved my personal workbook =
+to </font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">C:\Users\pgk0233\AppData\Roam=
+ing\Microsoft\Excel\XLSTART\Personal.xlsm</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">And it opens every time I ope=
+n Excel (which I assume is supposed to happen.)</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">&nbsp;</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">If it&#8217;s not a simple fi=
+x, don&#8217;t worry about it.</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">&nbsp;</font></div>
+<div><font face=3D"Tahoma" size=3D"2"><span style=3D"font-size:10pt;">_____=
+________________________________________<br>
+
+<b>From:</b> Ashley Gregory <br>
+
+<b>Sent:</b> Wednesday, May 27, 2015 10:48 AM<br>
+
+<b>To:</b> Patrick Kurkiewicz<br>
+
+<b>Subject:</b> RE: VBA menu code for personal.xls workbook</span></font></=
+div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri" size=3D"2"><span style=3D"font-size:10.5pt;">I =
+got it added so that a new tab is available in my Excel workbooks with a li=
+st of available personal macros, but when I actually tried to use one, it d=
+idn&#8217;t work.</span></font></div>
+<div><font face=3D"Calibri" size=3D"2"><span style=3D"font-size:10.5pt;">&n=
+bsp;</span></font></div>
+<div><font face=3D"Tahoma" size=3D"2"><span style=3D"font-size:10pt;">_____=
+________________________________________<br>
+
+<b>From:</b> Patrick Kurkiewicz <br>
+
+<b>Sent:</b> Tuesday, May 26, 2015 11:28 AM<br>
+
+<b>To:</b> Ashley Gregory<br>
+
+<b>Subject:</b> FW: VBA menu code for personal.xls workbook</span></font></=
+div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">Were you able to get this to =
+work?</font></div>
+<div><font face=3D"Calibri" color=3D"#1F497D">&nbsp;</font></div>
+<div><font face=3D"Tahoma" size=3D"2"><span style=3D"font-size:10pt;">_____=
+________________________________________<br>
+
+<b>From:</b> Justin Newton <br>
+
+<b>Sent:</b> Thursday, May 14, 2015 9:14 AM<br>
+
+<b>To:</b> Ashley Gregory; Bereket Kindo; Patrick Kurkiewicz<br>
+
+<b>Subject:</b> VBA menu code for personal.xls workbook</span></font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">C:\Users\jpn0217\AppData\Roaming\Microsoft\Exce=
+l\XLSTART\PERSONAL.XLS</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">Sub addMenu()</font></div>
+<div><font face=3D"Calibri">'addMyMenu Macro</font></div>
+<div><font face=3D"Calibri">'This macro will insert a menubar into the curr=
+ent workbook to allow easy access to the</font></div>
+<div><font face=3D"Calibri">'necessary macros</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Dim myMenuBar As CommandBar<=
+/font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Dim newMenu As CommandBarPop=
+up, subMenu As CommandBarPopup</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Dim menuButton As CommandBar=
+Button</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Dim menus As Integer</font><=
+/div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Dim calcSetting As Integer</=
+font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Call delMenu</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Application.StatusBar =3D Fa=
+lse</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set myMenuBar =3D CommandBar=
+s(&quot;Worksheet Menu Bar&quot;)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menus =3D CommandBars(&quot;=
+Worksheet Menu Bar&quot;).Controls.Count</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set newMenu =3D myMenuBar.Co=
+ntrols.Add(Type:=3DmsoControlPopup) ', before:=3Dmenus)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; newMenu.Caption =3D &quot;&a=
+mp;Personal Macros&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; newMenu.TooltipText =3D &quo=
+t;Personal Macros&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Format &amp;Percentage&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;Percentage&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Application.StatusBar =3D Tr=
+ue</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Switch Reference Style&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;SwitchRefStyle&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Calculate Range&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;CalculateRange&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Rebuild Calculation Chain&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;RebuildCalculationSequence&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Unhide All Sheets&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;UnhideAllSheets&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;&amp;No Auto Format Pivots&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;NoAutoFormatPivots&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Format &amp;Table&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;FormatTable&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Format Table No Total Row&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;FormatTableNoTotal&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Format MultiColumn &amp;Heading&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;Format_MultiColumn_Heading&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Set menuButton =3D newMenu.C=
+ontrols.Add(Type:=3DmsoControlButton, ID:=3D1)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.Caption =3D &quot=
+;Pull &amp;Color Theme&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; menuButton.OnAction =3D &quo=
+t;PullColorTheme&quot;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; Application.StatusBar =3D Tr=
+ue</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">End Sub</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">Sub delMenu()</font></div>
+<div><font face=3D"Calibri">'delMyMenu Macro</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; On Error Resume Next</font><=
+/div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; CommandBars(&quot;Worksheet =
+Menu Bar&quot;).Controls(&quot;Personal Macros&quot;).Delete</font></div>
+<div><font face=3D"Calibri">End Sub</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">Sub BaseFormatCode(IncludeTotal As Boolean)</fo=
+nt></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">Dim rngSelection As Range</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">Set rngSelection =3D Selection</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">Dim IsLeftAlign As VbMsgBoxResult</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">IsLeftAlign =3D MsgBox(&quot;Left Align Cells?&=
+quot;, vbYesNo, &quot;Alignment&quot;)</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; rngSelection.Borders(xlDiago=
+nalDown).LineStyle =3D xlNone</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; rngSelection.Borders(xlDiago=
+nalUp).LineStyle =3D xlNone</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; With rngSelection.Borders(xl=
+EdgeLeft)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Lin=
+eStyle =3D xlContinuous</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Col=
+orIndex =3D xlAutomatic</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Tin=
+tAndShade =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Wei=
+ght =3D xlMedium</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; With rngSelection.Borders(xl=
+EdgeTop)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Lin=
+eStyle =3D xlContinuous</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Col=
+orIndex =3D xlAutomatic</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Tin=
+tAndShade =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Wei=
+ght =3D xlMedium</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; With rngSelection.Borders(xl=
+EdgeBottom)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Lin=
+eStyle =3D xlContinuous</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Col=
+orIndex =3D xlAutomatic</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Tin=
+tAndShade =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Wei=
+ght =3D xlMedium</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; With rngSelection.Borders(xl=
+EdgeRight)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Lin=
+eStyle =3D xlContinuous</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Col=
+orIndex =3D xlAutomatic</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Tin=
+tAndShade =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Wei=
+ght =3D xlMedium</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; With rngSelection.Borders(xl=
+InsideVertical)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Lin=
+eStyle =3D xlContinuous</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Col=
+orIndex =3D xlAutomatic</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Tin=
+tAndShade =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Wei=
+ght =3D xlThin</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; With rngSelection.Borders(xl=
+InsideHorizontal)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Lin=
+eStyle =3D xlDashDotDot</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Col=
+orIndex =3D xlAutomatic</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Tin=
+tAndShade =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Wei=
+ght =3D xlThin</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; With Range(rngSelection(1, 1=
+), rngSelection(1, rngSelection.Columns.Count))</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; With=
+ .Borders(xlEdgeBottom)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .LineStyle =3D xlDouble</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .ColorIndex =3D xlAutomatic</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .TintAndShade =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .Weight =3D xlThick</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; End =
+With</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; With=
+ rngSelection</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .HorizontalAlignment =3D xlCenter</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .VerticalAlignment =3D xlCenter</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .WrapText =3D True</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .Orientation =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .AddIndent =3D False</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .IndentLevel =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .ShrinkToFit =3D False</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .ReadingOrder =3D xlContext</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; .MergeCells =3D False</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; End =
+With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Bor=
+ders(xlInsideHorizontal).LineStyle =3D xlNone</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If I=
+sLeftAlign =3D vbYes Then</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; With Range(rngSelection(2, 1), rngSelection(rngSelectio=
+n.Rows.Count, rngSelection.Columns.Count))</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .HorizontalAlignment =3D xlLeft=
+</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; End =
+If</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; If IncludeTotal Then</font><=
+/div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; With=
+ Range(rngSelection(rngSelection.Rows.Count, 1), rngSelection(rngSelection.=
+Rows.Count, rngSelection.Columns.Count))</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; With .Borders(xlEdgeTop)</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .LineStyle =3D xlContinuous</fo=
+nt></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ColorIndex =3D xlAutomatic</fo=
+nt></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .TintAndShade =3D 0</font></div=
+>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .Weight =3D xlThin</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; End With</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; End =
+With</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; End If</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; 'With Range(rngSelection(1, =
+1), rngSelection(rngSelection.Rows.Count, 1))</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .Horizon=
+talAlignment =3D xlCenter</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .Vertica=
+lAlignment =3D xlCenter</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .Orienta=
+tion =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .AddInde=
+nt =3D False</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .IndentL=
+evel =3D 0</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .ShrinkT=
+oFit =3D False</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .Reading=
+Order =3D xlContext</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; '&nbsp;&nbsp;&nbsp; .MergeCe=
+lls =3D False</font></div>
+<div><font face=3D"Calibri">&nbsp;&nbsp;&nbsp; 'End With</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">End Sub</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+</span></font>
+</body>
+</html>
+
+--_000_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_--
+
+--_004_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_
+Content-Type: text/plain; name="personal vba code.txt"
+Content-Description: personal vba code.txt
+Content-Disposition: attachment; filename="personal vba code.txt"; size=8615;
+	creation-date="Wed, 27 May 2015 17:02:01 GMT";
+	modification-date="Wed, 27 May 2015 17:02:01 GMT"
+Content-Transfer-Encoding: base64
+
+U3ViIFN3aXRjaFJlZlN0eWxlKCkNCg0KICAgIElmIEFwcGxpY2F0aW9uLlJlZmVyZW5jZVN0eWxl
+ID0geGxBMSBUaGVuDQogICAgICAgIEFwcGxpY2F0aW9uLlJlZmVyZW5jZVN0eWxlID0geGxSMUMx
+DQogICAgRWxzZQ0KICAgICAgICBBcHBsaWNhdGlvbi5SZWZlcmVuY2VTdHlsZSA9IHhsQTENCiAg
+ICBFbmQgSWYNCiAgICANCkVuZCBTdWINCg0KU3ViIENhbGN1bGF0ZVJhbmdlKCkNCiAgICANCiAg
+ICBBcHBsaWNhdGlvbi5TZWxlY3Rpb24uQ2FsY3VsYXRlDQoNCkVuZCBTdWINCg0KU3ViIFJlYnVp
+bGRDYWxjdWxhdGlvblNlcXVlbmNlKCkNCg0KICAgIEFwcGxpY2F0aW9uLkNhbGN1bGF0ZUZ1bGxS
+ZWJ1aWxkDQoNCkVuZCBTdWINCg0KU3ViIGFkZE1lbnUoKQ0KJ2FkZE15TWVudSBNYWNybw0KJ1Ro
+aXMgbWFjcm8gd2lsbCBpbnNlcnQgYSBtZW51YmFyIGludG8gdGhlIGN1cnJlbnQgd29ya2Jvb2sg
+dG8gYWxsb3cgZWFzeSBhY2Nlc3MgdG8gdGhlDQonbmVjZXNzYXJ5IG1hY3Jvcw0KICAgIA0KICAg
+IERpbSBteU1lbnVCYXIgQXMgQ29tbWFuZEJhcg0KICAgIERpbSBuZXdNZW51IEFzIENvbW1hbmRC
+YXJQb3B1cCwgc3ViTWVudSBBcyBDb21tYW5kQmFyUG9wdXANCiAgICBEaW0gbWVudUJ1dHRvbiBB
+cyBDb21tYW5kQmFyQnV0dG9uDQogICAgRGltIG1lbnVzIEFzIEludGVnZXINCiAgICBEaW0gY2Fs
+Y1NldHRpbmcgQXMgSW50ZWdlcg0KICAgICAgICAgICANCiAgICBDYWxsIGRlbE1lbnUNCiAgICAN
+CiAgICBBcHBsaWNhdGlvbi5TdGF0dXNCYXIgPSBGYWxzZQ0KDQogICAgU2V0IG15TWVudUJhciA9
+IENvbW1hbmRCYXJzKCJXb3Jrc2hlZXQgTWVudSBCYXIiKQ0KICAgIG1lbnVzID0gQ29tbWFuZEJh
+cnMoIldvcmtzaGVldCBNZW51IEJhciIpLkNvbnRyb2xzLkNvdW50DQogICAgICAgIA0KICAgIFNl
+dCBuZXdNZW51ID0gbXlNZW51QmFyLkNvbnRyb2xzLkFkZChUeXBlOj1tc29Db250cm9sUG9wdXAp
+ICcsIGJlZm9yZTo9bWVudXMpDQogICAgbmV3TWVudS5DYXB0aW9uID0gIiZQZXJzb25hbCBNYWNy
+b3MiDQogICAgbmV3TWVudS5Ub29sdGlwVGV4dCA9ICJQZXJzb25hbCBNYWNyb3MiDQogICAgDQog
+ICAgU2V0IG1lbnVCdXR0b24gPSBuZXdNZW51LkNvbnRyb2xzLkFkZChUeXBlOj1tc29Db250cm9s
+QnV0dG9uLCBJRDo9MSkNCiAgICBtZW51QnV0dG9uLkNhcHRpb24gPSAiRm9ybWF0ICZQZXJjZW50
+YWdlIg0KICAgIG1lbnVCdXR0b24uT25BY3Rpb24gPSAiUGVyY2VudGFnZSINCiAgICANCiAgICBB
+cHBsaWNhdGlvbi5TdGF0dXNCYXIgPSBUcnVlDQogICAgDQogICAgU2V0IG1lbnVCdXR0b24gPSBu
+ZXdNZW51LkNvbnRyb2xzLkFkZChUeXBlOj1tc29Db250cm9sQnV0dG9uLCBJRDo9MSkNCiAgICBt
+ZW51QnV0dG9uLkNhcHRpb24gPSAiU3dpdGNoIFJlZmVyZW5jZSBTdHlsZSINCiAgICBtZW51QnV0
+dG9uLk9uQWN0aW9uID0gIlN3aXRjaFJlZlN0eWxlIg0KICAgIA0KICAgIFNldCBtZW51QnV0dG9u
+ID0gbmV3TWVudS5Db250cm9scy5BZGQoVHlwZTo9bXNvQ29udHJvbEJ1dHRvbiwgSUQ6PTEpDQog
+ICAgbWVudUJ1dHRvbi5DYXB0aW9uID0gIkNhbGN1bGF0ZSBSYW5nZSINCiAgICBtZW51QnV0dG9u
+Lk9uQWN0aW9uID0gIkNhbGN1bGF0ZVJhbmdlIg0KICAgIA0KICAgIFNldCBtZW51QnV0dG9uID0g
+bmV3TWVudS5Db250cm9scy5BZGQoVHlwZTo9bXNvQ29udHJvbEJ1dHRvbiwgSUQ6PTEpDQogICAg
+bWVudUJ1dHRvbi5DYXB0aW9uID0gIlJlYnVpbGQgQ2FsY3VsYXRpb24gQ2hhaW4iDQogICAgbWVu
+dUJ1dHRvbi5PbkFjdGlvbiA9ICJSZWJ1aWxkQ2FsY3VsYXRpb25TZXF1ZW5jZSINCiAgICANCiAg
+ICBTZXQgbWVudUJ1dHRvbiA9IG5ld01lbnUuQ29udHJvbHMuQWRkKFR5cGU6PW1zb0NvbnRyb2xC
+dXR0b24sIElEOj0xKQ0KICAgIG1lbnVCdXR0b24uQ2FwdGlvbiA9ICJVbmhpZGUgQWxsIFNoZWV0
+cyINCiAgICBtZW51QnV0dG9uLk9uQWN0aW9uID0gIlVuaGlkZUFsbFNoZWV0cyINCg0KICAgIFNl
+dCBtZW51QnV0dG9uID0gbmV3TWVudS5Db250cm9scy5BZGQoVHlwZTo9bXNvQ29udHJvbEJ1dHRv
+biwgSUQ6PTEpDQogICAgbWVudUJ1dHRvbi5DYXB0aW9uID0gIiZObyBBdXRvIEZvcm1hdCBQaXZv
+dHMiDQogICAgbWVudUJ1dHRvbi5PbkFjdGlvbiA9ICJOb0F1dG9Gb3JtYXRQaXZvdHMiDQogICAg
+DQogICAgU2V0IG1lbnVCdXR0b24gPSBuZXdNZW51LkNvbnRyb2xzLkFkZChUeXBlOj1tc29Db250
+cm9sQnV0dG9uLCBJRDo9MSkNCiAgICBtZW51QnV0dG9uLkNhcHRpb24gPSAiRm9ybWF0ICZUYWJs
+ZSINCiAgICBtZW51QnV0dG9uLk9uQWN0aW9uID0gIkZvcm1hdFRhYmxlIg0KICAgIA0KICAgIFNl
+dCBtZW51QnV0dG9uID0gbmV3TWVudS5Db250cm9scy5BZGQoVHlwZTo9bXNvQ29udHJvbEJ1dHRv
+biwgSUQ6PTEpDQogICAgbWVudUJ1dHRvbi5DYXB0aW9uID0gIkZvcm1hdCBUYWJsZSBObyBUb3Rh
+bCBSb3ciDQogICAgbWVudUJ1dHRvbi5PbkFjdGlvbiA9ICJGb3JtYXRUYWJsZU5vVG90YWwiDQog
+ICAgDQogICAgU2V0IG1lbnVCdXR0b24gPSBuZXdNZW51LkNvbnRyb2xzLkFkZChUeXBlOj1tc29D
+b250cm9sQnV0dG9uLCBJRDo9MSkNCiAgICBtZW51QnV0dG9uLkNhcHRpb24gPSAiRm9ybWF0IE11
+bHRpQ29sdW1uICZIZWFkaW5nIg0KICAgIG1lbnVCdXR0b24uT25BY3Rpb24gPSAiRm9ybWF0X011
+bHRpQ29sdW1uX0hlYWRpbmciDQogICAgDQogICAgU2V0IG1lbnVCdXR0b24gPSBuZXdNZW51LkNv
+bnRyb2xzLkFkZChUeXBlOj1tc29Db250cm9sQnV0dG9uLCBJRDo9MSkNCiAgICBtZW51QnV0dG9u
+LkNhcHRpb24gPSAiUHVsbCAmQ29sb3IgVGhlbWUiDQogICAgbWVudUJ1dHRvbi5PbkFjdGlvbiA9
+ICJQdWxsQ29sb3JUaGVtZSINCiAgICANCiAgICBBcHBsaWNhdGlvbi5TdGF0dXNCYXIgPSBUcnVl
+DQogICAgDQpFbmQgU3ViDQogICANClN1YiBkZWxNZW51KCkNCidkZWxNeU1lbnUgTWFjcm8NCiAg
+ICBPbiBFcnJvciBSZXN1bWUgTmV4dA0KICAgIENvbW1hbmRCYXJzKCJXb3Jrc2hlZXQgTWVudSBC
+YXIiKS5Db250cm9scygiUGVyc29uYWwgTWFjcm9zIikuRGVsZXRlDQpFbmQgU3ViDQoNClN1YiBV
+bmhpZGVBbGxTaGVldHMoKQ0KJw0KRGltIEN1clNoZWV0IEFzIFZhcmlhbnQNCg0KRm9yIEVhY2gg
+Q3VyU2hlZXQgSW4gQWN0aXZlV29ya2Jvb2suU2hlZXRzDQogICAgQ3VyU2hlZXQuVmlzaWJsZSA9
+IFRydWUNCk5leHQgQ3VyU2hlZXQNCg0KRW5kIFN1Yg0KDQoNCg0KUHVibGljIEZ1bmN0aW9uIFZC
+UmFuZChzZWVkIEFzIEludGVnZXIpDQoNClJhbmRvbWl6ZQ0KDQogICAgVkJSYW5kID0gUm5kKHNl
+ZWQpDQoNCkVuZCBGdW5jdGlvbg0KDQoNCg0KDQpTdWIgTm9BdXRvRm9ybWF0UGl2b3RzKCkNCicN
+CicgTm9BdXRvRm9ybWF0UGl2b3RzIE1hY3JvDQonIE1hY3JvIHJlY29yZGVkIDEwLzgvMjAwOSBi
+eSBKdXN0aW4gTmV3dG9uDQonDQoNCicNCiAgICANCiAgICBEaW0gUGl2b3QgQXMgUGl2b3RUYWJs
+ZQ0KICAgIERpbSBDdXJTaGVldCBBcyBXb3Jrc2hlZXQNCiAgICANCiAgICBGb3IgRWFjaCBDdXJT
+aGVldCBJbiBBY3RpdmVXb3JrYm9vay5TaGVldHMNCiAgICANCiAgICAgICAgRm9yIEVhY2ggUGl2
+b3QgSW4gQ3VyU2hlZXQuUGl2b3RUYWJsZXMNCiAgICAgICAgICAgIFBpdm90Lkhhc0F1dG9Gb3Jt
+YXQgPSBGYWxzZQ0KICAgICAgICAgICAgUGl2b3QuSW5HcmlkRHJvcFpvbmVzID0gVHJ1ZQ0KICAg
+ICAgICAgICAgUGl2b3QuUm93QXhpc0xheW91dCB4bFRhYnVsYXJSb3cNCiAgICAgICAgTmV4dCBQ
+aXZvdA0KICAgICAgICANCiAgICBOZXh0IEN1clNoZWV0DQogICAgICAgICANCkVuZCBTdWINCg0K
+DQpTdWIgUGVyY2VudGFnZSgpDQonDQonIFBlcmNlbnRhZ2UgTWFjcm8NCicgTWFjcm8gcmVjb3Jk
+ZWQgMTAvOC8yMDA5IGJ5IEp1c3RpbiBOZXd0b24NCicNCg0KJw0KICAgIFNlbGVjdGlvbi5TdHls
+ZSA9ICJQZXJjZW50Ig0KICAgIFNlbGVjdGlvbi5OdW1iZXJGb3JtYXQgPSAiMC4wJSINCiAgICAN
+CkVuZCBTdWINCg0KDQpTdWIgRm9ybWF0VGFibGVOb1RvdGFsKCkNCg0KQ2FsbCBCYXNlRm9ybWF0
+Q29kZShGYWxzZSkNCg0KRW5kIFN1Yg0KDQoNClN1YiBCYXNlRm9ybWF0Q29kZShJbmNsdWRlVG90
+YWwgQXMgQm9vbGVhbikNCg0KRGltIHJuZ1NlbGVjdGlvbiBBcyBSYW5nZQ0KDQpTZXQgcm5nU2Vs
+ZWN0aW9uID0gU2VsZWN0aW9uDQoNCkRpbSBJc0xlZnRBbGlnbiBBcyBWYk1zZ0JveFJlc3VsdA0K
+DQpJc0xlZnRBbGlnbiA9IE1zZ0JveCgiTGVmdCBBbGlnbiBDZWxscz8iLCB2Ylllc05vLCAiQWxp
+Z25tZW50IikNCg0KICAgIHJuZ1NlbGVjdGlvbi5Cb3JkZXJzKHhsRGlhZ29uYWxEb3duKS5MaW5l
+U3R5bGUgPSB4bE5vbmUNCiAgICBybmdTZWxlY3Rpb24uQm9yZGVycyh4bERpYWdvbmFsVXApLkxp
+bmVTdHlsZSA9IHhsTm9uZQ0KICAgIFdpdGggcm5nU2VsZWN0aW9uLkJvcmRlcnMoeGxFZGdlTGVm
+dCkNCiAgICAgICAgLkxpbmVTdHlsZSA9IHhsQ29udGludW91cw0KICAgICAgICAuQ29sb3JJbmRl
+eCA9IHhsQXV0b21hdGljDQogICAgICAgIC5UaW50QW5kU2hhZGUgPSAwDQogICAgICAgIC5XZWln
+aHQgPSB4bE1lZGl1bQ0KICAgIEVuZCBXaXRoDQogICAgV2l0aCBybmdTZWxlY3Rpb24uQm9yZGVy
+cyh4bEVkZ2VUb3ApDQogICAgICAgIC5MaW5lU3R5bGUgPSB4bENvbnRpbnVvdXMNCiAgICAgICAg
+LkNvbG9ySW5kZXggPSB4bEF1dG9tYXRpYw0KICAgICAgICAuVGludEFuZFNoYWRlID0gMA0KICAg
+ICAgICAuV2VpZ2h0ID0geGxNZWRpdW0NCiAgICBFbmQgV2l0aA0KICAgIFdpdGggcm5nU2VsZWN0
+aW9uLkJvcmRlcnMoeGxFZGdlQm90dG9tKQ0KICAgICAgICAuTGluZVN0eWxlID0geGxDb250aW51
+b3VzDQogICAgICAgIC5Db2xvckluZGV4ID0geGxBdXRvbWF0aWMNCiAgICAgICAgLlRpbnRBbmRT
+aGFkZSA9IDANCiAgICAgICAgLldlaWdodCA9IHhsTWVkaXVtDQogICAgRW5kIFdpdGgNCiAgICBX
+aXRoIHJuZ1NlbGVjdGlvbi5Cb3JkZXJzKHhsRWRnZVJpZ2h0KQ0KICAgICAgICAuTGluZVN0eWxl
+ID0geGxDb250aW51b3VzDQogICAgICAgIC5Db2xvckluZGV4ID0geGxBdXRvbWF0aWMNCiAgICAg
+ICAgLlRpbnRBbmRTaGFkZSA9IDANCiAgICAgICAgLldlaWdodCA9IHhsTWVkaXVtDQogICAgRW5k
+IFdpdGgNCiAgICBXaXRoIHJuZ1NlbGVjdGlvbi5Cb3JkZXJzKHhsSW5zaWRlVmVydGljYWwpDQog
+ICAgICAgIC5MaW5lU3R5bGUgPSB4bENvbnRpbnVvdXMNCiAgICAgICAgLkNvbG9ySW5kZXggPSB4
+bEF1dG9tYXRpYw0KICAgICAgICAuVGludEFuZFNoYWRlID0gMA0KICAgICAgICAuV2VpZ2h0ID0g
+eGxUaGluDQogICAgRW5kIFdpdGgNCiAgICBXaXRoIHJuZ1NlbGVjdGlvbi5Cb3JkZXJzKHhsSW5z
+aWRlSG9yaXpvbnRhbCkNCiAgICAgICAgLkxpbmVTdHlsZSA9IHhsRGFzaERvdERvdA0KICAgICAg
+ICAuQ29sb3JJbmRleCA9IHhsQXV0b21hdGljDQogICAgICAgIC5UaW50QW5kU2hhZGUgPSAwDQog
+ICAgICAgIC5XZWlnaHQgPSB4bFRoaW4NCiAgICBFbmQgV2l0aA0KICAgIA0KICAgIFdpdGggUmFu
+Z2Uocm5nU2VsZWN0aW9uKDEsIDEpLCBybmdTZWxlY3Rpb24oMSwgcm5nU2VsZWN0aW9uLkNvbHVt
+bnMuQ291bnQpKQ0KICAgICAgICBXaXRoIC5Cb3JkZXJzKHhsRWRnZUJvdHRvbSkNCiAgICAgICAg
+ICAgIC5MaW5lU3R5bGUgPSB4bERvdWJsZQ0KICAgICAgICAgICAgLkNvbG9ySW5kZXggPSB4bEF1
+dG9tYXRpYw0KICAgICAgICAgICAgLlRpbnRBbmRTaGFkZSA9IDANCiAgICAgICAgICAgIC5XZWln
+aHQgPSB4bFRoaWNrDQogICAgICAgIEVuZCBXaXRoDQogICAgICAgIA0KICAgICAgICBXaXRoIHJu
+Z1NlbGVjdGlvbg0KICAgICAgICAgICAgLkhvcml6b250YWxBbGlnbm1lbnQgPSB4bENlbnRlcg0K
+ICAgICAgICAgICAgLlZlcnRpY2FsQWxpZ25tZW50ID0geGxDZW50ZXINCiAgICAgICAgICAgIC5X
+cmFwVGV4dCA9IFRydWUNCiAgICAgICAgICAgIC5PcmllbnRhdGlvbiA9IDANCiAgICAgICAgICAg
+IC5BZGRJbmRlbnQgPSBGYWxzZQ0KICAgICAgICAgICAgLkluZGVudExldmVsID0gMA0KICAgICAg
+ICAgICAgLlNocmlua1RvRml0ID0gRmFsc2UNCiAgICAgICAgICAgIC5SZWFkaW5nT3JkZXIgPSB4
+bENvbnRleHQNCiAgICAgICAgICAgIC5NZXJnZUNlbGxzID0gRmFsc2UNCiAgICAgICAgRW5kIFdp
+dGgNCiAgICAgICAgLkJvcmRlcnMoeGxJbnNpZGVIb3Jpem9udGFsKS5MaW5lU3R5bGUgPSB4bE5v
+bmUNCiAgICAgICAgDQogICAgICAgIA0KICAgICAgICBJZiBJc0xlZnRBbGlnbiA9IHZiWWVzIFRo
+ZW4NCiAgICAgICAgICAgIFdpdGggUmFuZ2Uocm5nU2VsZWN0aW9uKDIsIDEpLCBybmdTZWxlY3Rp
+b24ocm5nU2VsZWN0aW9uLlJvd3MuQ291bnQsIHJuZ1NlbGVjdGlvbi5Db2x1bW5zLkNvdW50KSkN
+CiAgICAgICAgICAgICAgICAuSG9yaXpvbnRhbEFsaWdubWVudCA9IHhsTGVmdA0KICAgICAgICAg
+ICAgRW5kIFdpdGgNCiAgICAgICAgRW5kIElmDQogICAgICAgIA0KICAgICAgICANCiAgICBFbmQg
+V2l0aA0KICAgICAgICANCiAgICBJZiBJbmNsdWRlVG90YWwgVGhlbg0KICAgICAgICANCiAgICAg
+ICAgV2l0aCBSYW5nZShybmdTZWxlY3Rpb24ocm5nU2VsZWN0aW9uLlJvd3MuQ291bnQsIDEpLCBy
+bmdTZWxlY3Rpb24ocm5nU2VsZWN0aW9uLlJvd3MuQ291bnQsIHJuZ1NlbGVjdGlvbi5Db2x1bW5z
+LkNvdW50KSkNCiAgICAgICAgICAgIFdpdGggLkJvcmRlcnMoeGxFZGdlVG9wKQ0KICAgICAgICAg
+ICAgICAgIC5MaW5lU3R5bGUgPSB4bENvbnRpbnVvdXMNCiAgICAgICAgICAgICAgICAuQ29sb3JJ
+bmRleCA9IHhsQXV0b21hdGljDQogICAgICAgICAgICAgICAgLlRpbnRBbmRTaGFkZSA9IDANCiAg
+ICAgICAgICAgICAgICAuV2VpZ2h0ID0geGxUaGluDQogICAgICAgICAgICBFbmQgV2l0aA0KICAg
+ICAgICBFbmQgV2l0aA0KICAgICAgICANCiAgICBFbmQgSWYNCiAgICANCiAgICAnV2l0aCBSYW5n
+ZShybmdTZWxlY3Rpb24oMSwgMSksIHJuZ1NlbGVjdGlvbihybmdTZWxlY3Rpb24uUm93cy5Db3Vu
+dCwgMSkpDQogICAgJyAgICAuSG9yaXpvbnRhbEFsaWdubWVudCA9IHhsQ2VudGVyDQogICAgJyAg
+ICAuVmVydGljYWxBbGlnbm1lbnQgPSB4bENlbnRlcg0KICAgICcgICAgLk9yaWVudGF0aW9uID0g
+MA0KICAgICcgICAgLkFkZEluZGVudCA9IEZhbHNlDQogICAgJyAgICAuSW5kZW50TGV2ZWwgPSAw
+DQogICAgJyAgICAuU2hyaW5rVG9GaXQgPSBGYWxzZQ0KICAgICcgICAgLlJlYWRpbmdPcmRlciA9
+IHhsQ29udGV4dA0KICAgICcgICAgLk1lcmdlQ2VsbHMgPSBGYWxzZQ0KICAgICdFbmQgV2l0aA0K
+DQoNCkVuZCBTdWINCg0KDQoNCg0KU3ViIEZvcm1hdFRhYmxlKCkNCicNCicgRm9ybWF0VGFibGUg
+TWFjcm8NCicgRm9ybWF0cyB0aGUgc2VsZWN0ZWQgYXJlYSB0aGUgd2F5IEkgdXN1YWxseSBsaWtl
+IHRvIGZvcm1hdCB0YWJsZXMuDQonDQonIEtleWJvYXJkIFNob3J0Y3V0OiBDdHJsK3QNCicNCkNh
+bGwgQmFzZUZvcm1hdENvZGUoVHJ1ZSkNCg0KICAgIA0KDQpFbmQgU3ViDQoNCg0KU3ViIEZvcm1h
+dF9NdWx0aUNvbHVtbl9IZWFkaW5nKCkNCicNCicgRm9ybWF0X011bHRpQ29sdW1uX0hlYWRpbmcg
+TWFjcm8NCicNCg0KJw0KICAgIFdpdGggU2VsZWN0aW9uDQogICAgICAgIC5Ib3Jpem9udGFsQWxp
+Z25tZW50ID0geGxDZW50ZXJBY3Jvc3NTZWxlY3Rpb24NCiAgICBFbmQgV2l0aA0KDQogICAgV2l0
+aCBTZWxlY3Rpb24uQm9yZGVycyh4bEVkZ2VMZWZ0KQ0KICAgICAgICAuTGluZVN0eWxlID0geGxD
+b250aW51b3VzDQogICAgICAgIC5Db2xvckluZGV4ID0geGxBdXRvbWF0aWMNCiAgICAgICAgLlRp
+bnRBbmRTaGFkZSA9IDANCiAgICAgICAgLldlaWdodCA9IHhsTWVkaXVtDQogICAgRW5kIFdpdGgN
+CiAgICBXaXRoIFNlbGVjdGlvbi5Cb3JkZXJzKHhsRWRnZVRvcCkNCiAgICAgICAgLkxpbmVTdHls
+ZSA9IHhsQ29udGludW91cw0KICAgICAgICAuQ29sb3JJbmRleCA9IHhsQXV0b21hdGljDQogICAg
+ICAgIC5UaW50QW5kU2hhZGUgPSAwDQogICAgICAgIC5XZWlnaHQgPSB4bE1lZGl1bQ0KICAgIEVu
+ZCBXaXRoDQogICAgV2l0aCBTZWxlY3Rpb24uQm9yZGVycyh4bEVkZ2VCb3R0b20pDQogICAgICAg
+IC5MaW5lU3R5bGUgPSB4bENvbnRpbnVvdXMNCiAgICAgICAgLkNvbG9ySW5kZXggPSB4bEF1dG9t
+YXRpYw0KICAgICAgICAuVGludEFuZFNoYWRlID0gMA0KICAgICAgICAuV2VpZ2h0ID0geGxUaGlu
+DQogICAgRW5kIFdpdGgNCiAgICBXaXRoIFNlbGVjdGlvbi5Cb3JkZXJzKHhsRWRnZVJpZ2h0KQ0K
+ICAgICAgICAuTGluZVN0eWxlID0geGxDb250aW51b3VzDQogICAgICAgIC5Db2xvckluZGV4ID0g
+eGxBdXRvbWF0aWMNCiAgICAgICAgLlRpbnRBbmRTaGFkZSA9IDANCiAgICAgICAgLldlaWdodCA9
+IHhsTWVkaXVtDQogICAgRW5kIFdpdGgNCiAgICBTZWxlY3Rpb24uQm9yZGVycyh4bEluc2lkZVZl
+cnRpY2FsKS5MaW5lU3R5bGUgPSB4bE5vbmUNCkVuZCBTdWINCg0KDQpQdWJsaWMgU3ViIFB1bGxD
+b2xvclRoZW1lKCkNCg0KICBPbiBFcnJvciBSZXN1bWUgTmV4dA0KICBBY3RpdmVXb3JrYm9vay5B
+cHBseVRoZW1lICgiUjpcU21hbGxHcm91cFxBbmFseXRpY3NcSHVtYW5hVGhlbWUudGhteCIpDQoN
+CkVuZCBTdWI=
+
+--_004_9FD5BA81AFB1104B844B430BEF021C502CF4A8CCSIMMBXWPG02S02r_--

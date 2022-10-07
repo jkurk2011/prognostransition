@@ -1,0 +1,3 @@
+Command + option + N = New Text File (can manually add other things as necessary)
+Command + option + V = Paste (and cut)
+Enter = Rename

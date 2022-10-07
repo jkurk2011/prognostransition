@@ -1,0 +1,490 @@
+
+Sub CalculateRange()
+    
+    Application.Selection.Calculate
+
+End Sub
+
+Sub open_workbook()
+    Application.ActiveWindow.Visible = False
+
+End Sub
+
+Sub addMenu()
+'addMyMenu Macro
+'This macro will insert a menubar into the current workbook to allow easy access to the
+'necessary macros
+    
+    Dim myMenuBar As CommandBar
+    Dim newMenu As CommandBarPopup, subMenu As CommandBarPopup
+    Dim menuButton As CommandBarButton
+    Dim menus As Integer
+    Dim calcSetting As Integer
+           
+    Call delMenu
+    
+    Application.StatusBar = False
+
+    Set myMenuBar = CommandBars("Worksheet Menu Bar")
+    menus = CommandBars("Worksheet Menu Bar").Controls.Count
+        
+    Set newMenu = myMenuBar.Controls.Add(Type:=msoControlPopup) ', before:=menus)
+    newMenu.Caption = "&Standard Macros"
+    newMenu.TooltipText = "Standard Macros"
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Format &Percentage"
+    menuButton.OnAction = "Percentage"
+    
+    Application.StatusBar = True
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Calculate Range"
+    menuButton.OnAction = "CalculateRange"
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Unhide All Sheets"
+    menuButton.OnAction = "UnhideAllSheets"
+
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "&No Auto Format Pivots"
+    menuButton.OnAction = "NoAutoFormatPivots"
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Format Numeric &Table"
+    menuButton.OnAction = "NumericTableWrapper"
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Format Verbal Table"
+    menuButton.OnAction = "FormatTableNoTotal"
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Format MultiColumn &Heading"
+    menuButton.OnAction = "Format_MultiColumn_Heading"
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Resize Row Heights &Evenly"
+    menuButton.OnAction = "ResizeEvenRowHeights"
+    
+    Set menuButton = newMenu.Controls.Add(Type:=msoControlButton, ID:=1)
+    menuButton.Caption = "Pull &Color Theme"
+    menuButton.OnAction = "PullColorTheme"
+    
+    Application.StatusBar = True
+    
+End Sub
+   
+Sub delMenu()
+'delMyMenu Macro
+    On Error Resume Next
+    CommandBars("Worksheet Menu Bar").Controls("Standard Macros").Delete
+End Sub
+
+Sub UnhideAllSheets()
+'
+Dim CurSheet As Variant
+
+For Each CurSheet In ActiveWorkbook.Sheets
+    CurSheet.Visible = True
+Next CurSheet
+
+End Sub
+
+
+
+Public Function VBRand(seed As Integer)
+
+Randomize
+
+    VBRand = Rnd(seed)
+
+End Function
+
+
+
+
+Sub NoAutoFormatPivots()
+'
+' NoAutoFormatPivots Macro
+' Macro recorded 10/8/2009 by Justin Newton
+'
+
+'
+    
+    Dim Pivot As PivotTable
+    Dim CurSheet As Worksheet
+    
+    For Each CurSheet In ActiveWorkbook.Sheets
+    
+        For Each Pivot In CurSheet.PivotTables
+            Pivot.HasAutoFormat = False
+            Pivot.InGridDropZones = True
+            Pivot.RowAxisLayout xlTabularRow
+        Next Pivot
+        
+    Next CurSheet
+         
+End Sub
+
+
+Sub Percentage()
+'
+' Percentage Macro
+' Macro recorded 10/8/2009 by Justin Newton
+'
+
+'
+    Selection.Style = "Percent"
+    Selection.NumberFormat = "0.0%"
+    
+End Sub
+
+
+Sub FormatTableNoTotal()
+
+Call BaseFormatCode(False)
+
+End Sub
+
+
+Sub BaseFormatCode(IncludeTotal As Boolean)
+
+Dim rngSelection As Range
+
+Set rngSelection = Selection
+
+Dim IsLeftAlign As VbMsgBoxResult
+
+IsLeftAlign = MsgBox("Left Align Cells?", vbYesNo, "Alignment")
+
+    rngSelection.Borders(xlDiagonalDown).LineStyle = xlNone
+    rngSelection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With rngSelection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With rngSelection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With rngSelection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With rngSelection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
+        .Weight = xlMedium
+    End With
+    With rngSelection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With rngSelection.Borders(xlInsideHorizontal)
+        .LineStyle = xlDashDotDot
+        .ColorIndex = xlAutomatic
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    
+    With Range(rngSelection(1, 1), rngSelection(1, rngSelection.Columns.Count))
+        With .Borders(xlEdgeBottom)
+            .LineStyle = xlDouble
+            .ColorIndex = xlAutomatic
+            .TintAndShade = 0
+            .Weight = xlThick
+        End With
+        
+        With rngSelection
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
+            .WrapText = True
+            .Orientation = 0
+            .AddIndent = False
+            .IndentLevel = 0
+            .ShrinkToFit = False
+            .ReadingOrder = xlContext
+            .MergeCells = False
+        End With
+        .Borders(xlInsideHorizontal).LineStyle = xlNone
+        
+        
+        If IsLeftAlign = vbYes Then
+            With Range(rngSelection(2, 1), rngSelection(rngSelection.Rows.Count, rngSelection.Columns.Count))
+                .HorizontalAlignment = xlLeft
+            End With
+        End If
+        
+        
+    End With
+        
+    If IncludeTotal Then
+        
+        With Range(rngSelection(rngSelection.Rows.Count, 1), rngSelection(rngSelection.Rows.Count, rngSelection.Columns.Count))
+            With .Borders(xlEdgeTop)
+                .LineStyle = xlContinuous
+                .ColorIndex = xlAutomatic
+                .TintAndShade = 0
+                .Weight = xlThin
+            End With
+        End With
+        
+    End If
+    
+    'With Range(rngSelection(1, 1), rngSelection(rngSelection.Rows.Count, 1))
+    '    .HorizontalAlignment = xlCenter
+    '    .VerticalAlignment = xlCenter
+    '    .Orientation = 0
+    '    .AddIndent = False
+    '    .IndentLevel = 0
+    '    .ShrinkToFit = False
+    '    .ReadingOrder = xlContext
+    '    .MergeCells = False
+    'End With
+
+
+End Sub
+
+
+
+
+Sub FormatTable()
+'
+' FormatTable Macro
+' Formats the selected area the way I usually like to format tables.
+'
+' Keyboard Shortcut: Ctrl+t
+'
+Call BaseFormatCode(True)
+
+    
+
+End Sub
+
+
+Sub Format_MultiColumn_Heading()
+    Dim rngSelection As Range
+    
+    Set rngSelection = Selection
+    
+    rngSelection.ClearFormats
+    
+    With Selection
+        .HorizontalAlignment = xlCenterAcrossSelection
+    End With
+
+    Call ApplyWhiteBorder(Selection.Borders(xlEdgeLeft))
+    Call ApplyWhiteBorder(Selection.Borders(xlEdgeRight))
+    Call ApplyGrayBorder(Selection.Borders(xlEdgeBottom))
+    
+    Selection.Borders(xlInsideVertical).LineStyle = xlNone
+End Sub
+
+
+Public Sub PullColorTheme()
+
+  On Error Resume Next
+  ActiveWorkbook.ApplyTheme ("R:\SmallGroup\Analytics\HumanaTheme.thmx")
+
+End Sub
+
+
+Public Sub ResizeEvenRowHeights()
+
+    Dim rngSelection As Range
+    Dim CurRow As Object
+    
+    Dim MaxHeight As Single
+    
+    Set rngSelection = Selection
+    
+    rngSelection.Rows.AutoFit
+    
+    MaxHeight = 0
+    
+    For Each CurRow In rngSelection.Rows
+        If CurRow.RowHeight > MaxHeight Then MaxHeight = CurRow.RowHeight
+    Next CurRow
+    
+    rngSelection.Rows.RowHeight = MaxHeight
+
+End Sub
+
+
+
+Public Sub NumericTableWrapper()
+
+    Dim rngSelection As Range
+    
+    Dim tmpResult As VbMsgBoxResult
+    Dim HasTotalRow As Boolean
+    Dim FormatHeader As Boolean
+    
+    tmpResult = MsgBox("Include Total Row?", vbYesNo, "Total Row")
+    
+    HasTotalRow = False
+    If tmpResult = vbYes Then HasTotalRow = True
+    
+    tmpResult = MsgBox("Format Header Proper Case?", vbYesNo, "Format Header")
+    
+    FormatHeader = False
+    If tmpResult = vbYes Then FormatHeader = True
+    
+    Set rngSelection = Selection
+        
+    Call FormatNumericTable(rngSelection, HasTotalRow, FormatHeader)
+
+End Sub
+
+Sub ApplyWhiteBorder(MyBorder As Border)
+    With MyBorder
+        .LineStyle = xlContinuous
+        .ThemeColor = 1
+        .TintAndShade = 0
+        .Weight = xlThick
+    End With
+End Sub
+
+Sub ApplyGrayBorder(MyBorder As Border)
+    With MyBorder
+        .LineStyle = xlContinuous
+        .ThemeColor = 1
+        .TintAndShade = -0.499984740745262
+        .Weight = xlThin
+    End With
+End Sub
+
+
+Sub FormatNumericTable(rngSelection As Range, IncludeTotal As Boolean, FormatHeader As Boolean)
+
+    Const MinColsForShading = 10
+    Const MinRowsForShading = 20
+
+    Dim CurColumn As Range
+    Dim CurRow As Range
+    Dim CurCell As Range
+    Dim DataPartOnly As Range
+    Dim Header As Range
+    Dim Totals As Range
+    
+    Dim IsAllNumeric As Boolean
+    Dim CurMax As Double
+    Dim MaxDecimalPlaces As Integer
+    Dim MaxShadingRow As Long
+
+    rngSelection.ClearOutline
+    rngSelection.VerticalAlignment = xlCenter
+
+    Call ApplyWhiteBorder(rngSelection.Borders(xlEdgeLeft))
+    Call ApplyWhiteBorder(rngSelection.Borders(xlEdgeRight))
+    Call ApplyWhiteBorder(rngSelection.Borders(xlEdgeTop))
+    Call ApplyWhiteBorder(rngSelection.Borders(xlEdgeBottom))
+    'Call ApplyWhiteBorder(rngSelection.Borders(xlInsideVertical))
+    Call ApplyWhiteBorder(rngSelection.Borders(xlInsideHorizontal))
+    
+    Set Header = rngSelection.Rows(1).Cells
+    
+    Call ApplyGrayBorder(Header.Borders(xlEdgeBottom))
+    Call ApplyWhiteBorder(Header.Borders(xlInsideVertical))
+    
+    Header.HorizontalAlignment = xlCenter
+    Header.VerticalAlignment = xlBottom
+    
+    If FormatHeader Then
+        For Each CurCell In Header.Cells
+            CurCell.Value = Application.WorksheetFunction.Substitute(CurCell.Value, "_", " ")
+            CurCell.Value = Application.WorksheetFunction.Proper(CurCell.Value)
+        Next CurCell
+    End If
+    
+    If IncludeTotal = True Then
+        Set Totals = rngSelection.Rows(rngSelection.Rows.Count).Cells
+        Call ApplyGrayBorder(Totals.Borders(xlEdgeTop))
+        Call ApplyWhiteBorder(Totals.Borders(xlInsideVertical))
+    End If
+    
+    For Each CurColumn In rngSelection.Columns
+        Set DataPartOnly = Range(CurColumn.Cells(2), CurColumn.Cells(CurColumn.Cells.Count))
+    
+        IsAllNumeric = True
+        CurMax = 0
+        CurMin = 9999999
+        MaxDecimalPlaces = 0
+        
+        For Each CurCell In DataPartOnly.Cells
+            If Not IsNumeric(CurCell.Value) Then
+                IsAllNumeric = False
+            Else
+                If Abs(CurCell.Value) > CurMax Then CurMax = Abs(CurCell.Value)
+                If Abs(CurCell.Value) > 0 And Abs(CurCell.Value) < CurMin Then CurMin = Abs(CurCell.Value)
+                
+                If Round(CurCell.Value, 0) = CurCell.Value Then
+                ElseIf Round(CurCell.Value, 1) = CurCell.Value Then
+                    MaxDecimalPlaces = Application.WorksheetFunction.Max(MaxDecimalPlaces, 1)
+                ElseIf Round(CurCell.Value, 2) = CurCell.Value Then
+                    MaxDecimalPlaces = Application.WorksheetFunction.Max(MaxDecimalPlaces, 2)
+                Else
+                    MaxDecimalPlaces = Application.WorksheetFunction.Max(MaxDecimalPlaces, 3)
+                End If
+                
+            End If
+        Next CurCell
+        
+        If IsAllNumeric = True Then
+            DataPartOnly.HorizontalAlignment = xlRight
+            If CurMax >= 1000 Or CurMin >= 100 Then
+                DataPartOnly.NumberFormat = "#,##0;-#,##0"
+            ElseIf MaxDecimalPlaces = 1 Then
+                DataPartOnly.NumberFormat = "#,##0.0;-#,##0.0"
+            ElseIf MaxDecimalPlaces = 2 Then
+                DataPartOnly.NumberFormat = "#,##0.00;-#,##0.00"
+            ElseIf MaxDecimalPlaces = 3 Then
+                DataPartOnly.NumberFormat = "#,##0.000;-#,##0.000"
+            End If
+        Else: DataPartOnly.HorizontalAlignment = xlLeft
+        End If
+        
+        DataPartOnly.Columns.AutoFit
+        If DataPartOnly.ColumnWidth < 9 Then DataPartOnly.ColumnWidth = 9
+        
+    Next CurColumn
+
+    If rngSelection.Rows.Count >= MinRowsForShading Or rngSelection.Columns.Count >= MinColsForShading Then
+        If HasTotalRow Then
+            MaxShadingRow = rngSelection.Rows.Count - 1
+        Else
+            MaxShadingRow = rngSelection.Rows.Count
+        End If
+
+        For i = 3 To MaxShadingRow Step 2
+          Set CurRow = rngSelection.Rows(i)
+          'Call ApplyGrayBorder(CurRow.Borders(xlEdgeBottom))
+          With CurRow.Interior
+              .Pattern = xlSolid
+              .PatternColorIndex = xlAutomatic
+              .ThemeColor = xlThemeColorDark1
+              .TintAndShade = -4.99893185216834E-02
+              .PatternTintAndShade = 0
+          End With
+        Next i
+    End If
+    
+    rngSelection.WrapText = True
+
+    Set CurColumn = Nothing
+    Set CurRow = Nothing
+    Set CurCell = Nothing
+    Set DataPartOnly = Nothing
+    Set Header = Nothing
+    Set Totals = Nothing
+
+End Sub

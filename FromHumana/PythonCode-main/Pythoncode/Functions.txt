@@ -1,0 +1,18 @@
+
+#This function will take nested .json field in a larger Pandas
+#data frame and convert to series of columns
+#in a new data frame.
+
+def nested_json(idta, param, concat_result = 1):
+    for i in range(0, len(idta)):
+        sresponse = idta[param][i]
+        sresp2 = pd.json_normalize(json.loads(sresponse))
+        if i>0:
+            odta = odta.append(sresp2)
+        else:
+            odta = sresp2
+    if concat_result == 1:
+        idta=idta.drop([param], axis=1)
+        odta = pd.concat([idta, odta.reset_index(drop=True)], axis=1)
+    return(odta)
+

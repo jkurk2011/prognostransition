@@ -1,0 +1,182 @@
+all_preds_pre['humira_mbr'] = np.where(all_preds_pre.rx_brand_name.str.lower().str.contains('humira',na=False), 1, 0)
+
+
+Group Level Quantiles
+
+def weighted_average(data):
+    d = {}
+    for i in ['manual_rate'
+                ,'actual_claims'
+                ,'v2_lab'
+                ,'v3_lab'
+                ,'v3_ability'
+                ,'v3_bhi'
+             ]:
+        if i == 'actual_claims':
+            suffix = ''
+        else:
+            suffix = '_cal'
+        d[i] = np.average(data[i], weights= data['member_months'])
+        # d['d2_wa'] = np.average(data['d2'], weights=data['weights'])
+    return pd.Series(d)
+
+quantiles = (all_preds_grp
+             .groupby('quantile_of_actual_claims')
+             .apply(weighted_average)
+             .reset_index()
+             .drop(['quantile_of_actual_claims'],axis=1)
+            )
+quantiles['actual_claims_quantile'] = quantiles.index
+
+quantplot = quantiles.melt(id_vars='actual_claims_quantile')
+(
+ ggplot(quantplot)
+    +aes(x="actual_claims_quantile", y="value", color="variable")
+    +geom_line(size=2)
+#      +scale_y_continuous(limits=(0,1000))
+    +ylab("Predicted  Claims PMPM")
+    +xlab("Actual Claims Quantile")
+    +coord_cartesian(ylim=(300,550))
+    +ggtitle("Member Level Lift Plot")
+    +labs(color = "Predictor")  
+
+
+Date object
+labv2['quote_date'] = pd.to_datetime(labv2['quote_date']).dt.date
+
+# with open("modelobjects/demo_model_bhibcbsdata.pkl", 'wb') as file:
+#     pickle.dump(reg, file)
+# with open("modelobjects/demo_model_bhibcbsdata.pkl", 'rb') as file:
+#     tst = pickle.load(file)
+
+
+all_preds_pre[['lab_pred','lab_pred_c', 'has_lab']].groupby('has_lab').aggregate({"mean","count"})
+
+
+meddta[['dv_token_2','period','ccsr']].drop_duplicates().count()
+
+d = {}
+for datatype in ['med','rx']:
+    for period in ['1','2','3','4']:
+        d["{}preiod_{}_preds".format(datatype, period)] = pd.read_parquet("preds/" + datatype + "period_" + period + ".parquet")
+        if (datatype == 'med' and period == '1'):
+            init = d["{}preiod_{}_preds".format(datatype, period)]
+        else:
+            init = pd.concat([init, d["{}preiod_{}_preds".format(datatype, period)].drop(columns = 'dv_token_2')], axis = 1)
+
+
+for pred in preds:
+    print(pred + "_r-sq", "{:.4f}".format(rsq(allpreds[pred], allpreds['response'], rebal = 1)), pred + "_mean", "{:.2f}".format(np.mean(allpreds[pred])) )
+    exec(f"allpreds['{pred}_cal'] = allpreds[pred]*np.mean(allpreds['response'])/np.mean(allpreds[pred])")
+
+
+https://duckdb.org/2021/05/14/sql-on-pandas.html
+
+train_part = modeldata.query("train ==1")
+
+varname = "var"
+varabc = 6
+eval("{}abc".format(varname))
+
+#df = df.loc[:, ~df.columns.str.startswith('Prod')]
+#print (df)
+
+## Object-oriented example
+class Foo(object):
+    def __init__(self, word_of_power="Ni"):
+        self.fact = "We are the knights who say %!" % word_of_power
+
+>>> f = Foo()
+>>> w = Foo("No!")
+>>> print f.fact
+"We are the knights who say Ni!"
+>>> print w.fact
+"We are the knights who say No!"
+
+##Code to reference the directory of the file being run (wherever it is).  That way you can keep a function with needed lookup tables in a folder and not have to change the references to the lookup tables
+
+BASE_DIR is pointing to the parent directory of PROJECT_ROOT. You can re-write the two definitions as:
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(PROJECT_ROOT)
+
+
+all_state_df.groupby(["scoring", "fill_state"])["member_prediction"].mean()
+
+(all_state_df
+ .groupby(["scoring", "fill_state", "group_id"])
+ .aggregate(member_mean=("member_prediction", "mean"))
+ .groupby(["scoring", "fill_state"])
+ .aggregate(member_mean_mean=("member_mean", "mean"))
+)
+
+df.groupby("A").agg(
+    b_min=pd.NamedAgg(column="B", aggfunc="min"),
+    c_sum=pd.NamedAgg(column="C", aggfunc="sum"))
+
+agg(
+    # Get max of the duration column for each group
+    max_duration=('duration', max),
+    # Get min of the duration column for each group
+    min_duration=('duration', min),
+    # Get sum of the duration column for each group
+    total_duration=('duration', sum)
+
+
+df[df.Last_Name.notnull()]
+
+
+mbrplanyr = mbrplanyr.where(mbrplanyr["tot_claims"] > 0)
+
+
+
+pandas.DataFrame.sort_values() method with the argument by=column_name.
+
+print(mbrplanyr.groupby("contract_type")["tot_claims_60trunc"].mean())
+
+#use conditional to set(or replace) value of column
+
+member_df['member_is_subscriber'] = member_df['member_is_subscriber'].mask(member_df['member_age'] < 18, False)
+
+df.loc[(df['c1'] == 'Value'), 'c2'] = 10
+
+##Slower method use .apply
+df['c2'] = df['c1'].apply(lambda x: 10 if x == 'Value' else x)
+
+##use np.where
+df['c2'] = np.where(df.c1 == 8,'X', df.c3)
+
+facicdvert['icd'] = facicdvert['icd'].apply(lambda x: x.strip().replace(".",""))
+facicdvert['icd'] = facicdvert['icd'].apply(lambda x: x.replace(".",""))
+facicdvert['icd'] = facicdvert['icd'].str.replace(".","")
+
+############Interesting Query###############
+multi_state_df = (
+    all_state_df
+    .query('fill_state == "no_fill"')
+    .set_index("elig_idx")
+    .assign(
+        prediction_nofill=lambda x: x["member_prediction"],
+        prediction_unk=all_state_df.query('fill_state == "state_UNK"').set_index("elig_idx")["member_prediction"], # .rank(method="dense", pct="true"),
+        prediction_fl=all_state_df.query('fill_state == "state_FL"').set_index("elig_idx")["member_prediction"], # .rank(method="dense", pct="true"),
+        prediction_tx=all_state_df.query('fill_state == "state_TX"').set_index("elig_idx")["member_prediction"], # .rank(method="dense", pct="true"),
+        prediction_ga=all_state_df.query('fill_state == "state_GA"').set_index("elig_idx")["member_prediction"], # .rank(method="dense", pct="true"),
+    )
+    .sample(1000)
+    .loc[:, ["scoring", "patient_state_orig", "prediction_nofill", "prediction_unk", "prediction_fl", "prediction_tx", "prediction_ga"]]
+)
+
+
+I think it's useful to see that stuff, but probably a more clear view of how we do a "manual scoring using the production model" is from trial scorings with optima or NGIC
+
+
+
+3:49
+which exist as notebooks on jhub, probably in uwboost
+
+
+pip list > requirements.txt
+pip install -r requirements.txt
+
+conda env export > uwboost3.yml
+

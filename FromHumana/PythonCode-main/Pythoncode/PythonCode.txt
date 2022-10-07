@@ -1,0 +1,133 @@
+# iqsubmit['group_id'].nunique()
+#counts = my_series.value_counts()
+
+tst=rawmeddta.rename(columns={"group_id": "src_rpt_cust_id",
+                                                                 "patient_id" : "mbr_pers_gen_key"})
+
+
+medndclookup = pd.read_csv('mappingfiles/hrdl_medndcagnostic.csv')
+medndclookup.columns = [x.lower() for x in medndclookup]
+medndclookup['ndc_id'] = medndclookup['ndc_id'].astype('str').str.zfill(11)
+medndclookup=medndclookup[['ndc_id','serv_unit_cnt_max','allowed_per_unit']]
+
+
+iqsubmit['underwriting_date'] = pd.to_datetime(iqsubmit['pers_end_date'], format = '%Y%m')+pd.DateOffset(months = 1)
+iqsubmit['pers_birth_date'] = pd.to_datetime(iqsubmit['pers_birth_date'], format = '%Y%m%d')
+
+iqsubmit['age'] = (np.floor((pd.to_datetime(iqsubmit['underwriting_date']) - 
+             pd.to_datetime(iqsubmit['pers_birth_date'])).dt.days / 365.25)).astype(int)
+
+##Filter on colnames
+tst2.filter(regex = 'charged|allow|ndc_id|procunits')[(tst2['ndc_id'] != & (tst2['ndc_allowed'].isna())]
+tst2.filter(regex = 'charged|allow|ndc_id|procunits')[tst2['ndc_id'] != "na"].sort_values(by='ag_allow_amt', ascending=False)
+
+filter values
+ re.sub(' \w{1,3} ', ' ', c)
+pd.Series(['f.o', 'fuz', np.nan]).str.replace('f.', 'ba', regex=False)
+
+years = [1952, 2007]
+gapminder.year.isin(years)
+>gapminder_Ocean = gapminder[~gapminder.continent.isin(continents)]
+
+df["C"] = df[["A", "B"]].max(axis=1)
+iqsubmit['age']=iqsubmit['age'].clip(lower=0)
+iqgrp_resp['lfp_ind'].value_counts()
+iqgrp_resp = iqresp[
+    'group_id',
+    'underwriting_date',
+    'cr_ind',
+    'lfp_ind',
+    'bus_segment_cd'
+].drop_duplicates()
+
+
+
+iqgrp_resp = iqresp.groupby(
+    ['group_id',
+     'src_rpt_cust_id',
+    'underwriting_date',
+    'comm_rt',
+    'lf_group',
+    'bus_segment_cd']
+).agg(
+{'cov_months_medical' : sum,
+ 'mbr_ann_ag_cmpl_allow' : sum,
+ 'mbr_ann_cmpl_agnostic_60trunc': sum
+}).reset_index()
+iqgrp_resp['agnostic_claims_pmpm'] = iqgrp_resp['mbr_ann_ag_cmpl_allow']/iqgrp_resp['cov_months_medical']
+iqgrp_resp['agnostic_claims_trunc_pmpm'] = iqgrp_resp['mbr_ann_cmpl_agnostic_60trunc']/iqgrp_resp['cov_months_medical']
+iqgrp_resp = iqgrp_resp.loc[:, ~iqgrp_resp.columns.str.startswith('mbr_ann')]
+
+sign = lambda a: (a>0) - (a<0)
+sign(12)
+qtr_rxdta['allowed'] = qtr_rxdta['allowed'].fillna(0)
+qtr_rxdta = qtr_rxdta.drop('claimid',axis=1)
+
+
+# Join in debits and milliman match name to qtr_rxdata
+
+#create unique milliman matches by ndc
+debit_match = debit_lookup[['ndc_id', 'milliman_match_name', 'debits']].drop_duplicates()
+debit_match['ndc_id'] = debit_match['ndc_id'].astype(str).str[:-2]
+debit_match['ndc_id'] = debit_match['ndc_id'].str.pad(11, side = 'left', fillchar = '0')
+qtr_rxdta["ndc_code"]= qtr_rxdta["ndc_code"].astype(str).str.pad(11, side ='left', fillchar ='0')
+
+debit_match.reset_index(drop = True, inplace = True)
+.apply(lambda x: 'na' if x=='0' else x.zfill(11))
+
+#coerce ndc id to 11 characters
+qtr_rxdta['ndc_id'] = qtr_rxdta['ndc_id'].astype(str).str[:-2]
+qtr_rxdta['ndc_id'] = qtr_rxdta['ndc_id'].str.pad(11, side = 'left', fillchar = '0') 
+debitlookup['ndc_id'] = debitlookup['ndc_id'].astype(str).str[:-2]
+debitlookup['ndc_id']=debitlookup['ndc_id'].apply(lambda x: 'xx' if x=='n' else x.zfill(11))
+
+debitlookup['ndc_id'] = debitlookup['ndc_id_sas'].str[1:]
+
+
+#merge debit data and qtr rx data
+rx_data = pd.merge(qtr_rxdta, debit_match, on = 'ndc_id')
+
+
+
+#group by and sum data
+#create aggregation key
+rx_data['agg_key'] = (rx_data['group_id'].astype(str) + 
+                      rx_data['patient_id'].astype(str) + 
+                      rx_data['milliman_match_name'].astype(str) + 
+                      rx_data['qtr_from_plnstart'].astype(str) + 
+                      rx_data['underwriting_date'].astype(str))
+
+
+qtr_rxdta = pd.merge(rawrxdta, iqgrp_qtrkey, how='inner', on='group_id').merge(ndclookup,how='left',on='ndc_id')
+qtr_rxdta = qtr_rxdta[(qtr_rxdta['rx_month']>=qtr_rxdta['join_min']) & (qtr_rxdta['rx_month']<=qtr_rxdta['join_max'])]
+qtr_rxdta['ag_raw'] = qtr_rxdta[["days_supply_cnt", "serv_unit_cnt_max"]].min(axis=1)*qtr_rxdta['allowed_per_unit']
+qtr_rxdta['ag_allow'] = np.where(qtr_rxdta['allowed'].isna(),qtr_rxdta['ag_raw'],qtr_rxdta['allowed'])
+qtr_rxdta['ag_allow'] = np.where(qtr_rxdta['ag_allow'].isna(),0,qtr_rxdta['ag_allow'])
+qtr_rxdta['allowed'] = qtr_rxdta['allowed'].fillna(0)
+qtr_rxdta = qtr_rxdta.drop('claimid',axis=1)'
+
+
+
+ratecal = joblib.load('IQVIA_Score/modelobjects/'+'ratecal.pkl')
+iqmbr_export = rawmeddta[['mbr_pers_gen_key', 'group_id']].merge(iqgrp_export,on='group_id').drop_duplicates()
+iqmbr_export['hist_mths_avail'] = 24
+x_valid= pd.DataFrame(columns=['bus_segment_J',
+                               'bus_segment_L',
+                               'bus_segment_N',
+                               'bus_segment_P',
+                               'bus_segment_S',
+                               'comm_rt',
+                               'lf_group',
+                               'aso_group'])
+
+x_valid[['bus_segment_J']] = (iqmbr_export[['bus_segment_cd']]=='J').astype(int)
+x_valid[['bus_segment_L']] = (iqmbr_export[['bus_segment_cd']]=='L').astype(int)
+x_valid[['bus_segment_N']] = (iqmbr_export[['bus_segment_cd']]=='N').astype(int)
+x_valid[['bus_segment_P']] = (iqmbr_export[['bus_segment_cd']]=='P').astype(int)
+x_valid[['bus_segment_S']] = (iqmbr_export[['bus_segment_cd']]=='S').astype(int)
+x_valid[['comm_rt','lf_group','aso_group']] = iqmbr_export[['comm_rt','lf_group','aso_group']]
+# x_valid
+iqmbr_export['rate_calibrated'] = ratecal.predict(x_valid)
+
+
+
